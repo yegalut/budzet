@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <style>
         ul {
@@ -153,7 +153,8 @@
 <ul>
     <li><a th:href="@{/user_page(action='account_info')}">Account info</a></li>
     <li><a th:href="@{/user_page(action='finances')}">My Finances</a></li>
-    <li><a th:href="@{/user_page(action='add')}">Add item</a></li>
+    <li><a th:href="@{/user_page(action='add_income')}">Add Income</a></li>
+    <li><a th:href="@{/user_page(action='add_expense')}">Add Expense</a></li>
     <li style="float:right"><a class="active" th:href="@{/user_page(action='logout')}">Logout</a></li>
 </ul>
 
@@ -163,45 +164,74 @@
 
 <div th:if="${action.equals('finances')}">
     <p>finances</p>
+    <div class="products">
+
+        <div class="products-item" th:each="finance: ${finances}">
+                <p class="item-description" th:text="${finance.getName()}"></p>
+                <p class="item-price" th:text="${finance.getAmount()}"></p>
+
+        </div>
+    </div>
 </div>
 
-<div th:if="${action.equals('add')}">
-    <form th:action="@{/add_product}" th:object="${finance}" method="post">
+<div th:if="${action.equals('add_income')}">
+    <form th:action="@{/add}" th:object="${finance}" method="post">
 
-        <h1>Add item:</h1>
+        <h1>Add income:</h1>
 
         <fieldset>
+            <label for="inc_name">Name:</label>
+            <input type="text" id="inc_name" th:field="*{name}" >
 
+            <input type="hidden" name="type"  th:value="'income'">
 
+            <label for="inc_amount">amount:</label>
+            <input type="number" id="inc_amount" th:field="*{amount}" >
 
-            <label for="name">Name:</label>
-            <input type="text" id="name" th:field="*{name}" >
-
-            <label for="description">categoryId:</label>
-            <input type="text" id="description" th:field="*{categoryId}" >
-
-            <label for="price">amount:</label>
-            <input type="number" id="price" th:field="*{amount}" >
-
-            <label for="isNegotiable">type:</label>
-            <select id="isNegotiable" th:field="*{type}" >
-                <option th:value="Income">Income</option>
-                <option th:value="Expense">Expense</option>
+            <label for="inc_category">Category:</label>
+            <select id="inc_category" th:field="*{categoryId}"  >
+                <option th:each="category: ${categories}" th:value="${category.getId()}"><p th:text="${category.getName()}"></p></option>
             </select>
 
-
-            <!--      <input type="hidden" th:field="*{addedOn}"  th:value="${#dates.format(#dates.createNow(),'YYYY/MM/dd HH:mm')}" >-->
-
-
+            <label for="inc_date">Date:</label>
+            <input type="date" th:field="*{date}" id="inc_date">
 
         </fieldset>
         <button type="submit">Add</button>
-
 
     </form>
 
 </div>
 
+<div th:if="${action.equals('add_expense')}">
+    <form th:action="@{/add}" th:object="${finance}" method="post">
+
+        <h1>Add expense:</h1>
+
+        <fieldset>
+            <label for="exp_name">Name:</label>
+            <input type="text" id="exp_name" th:field="*{name}" >
+
+            <input type="hidden" name="type"  th:value="'expense'">
+
+            <label for="exp_price">amount:</label>
+            <input type="number" id="exp_price" th:field="*{amount}" >
+
+            <label for="exp_category">Category:</label>
+            <select id="exp_category" th:field="*{categoryId}"  >
+                <option th:each="category: ${categories}" th:value="${category.getId()}"><p th:text="${category.getName()}"></p></option>
+            </select>
+
+            <label for="exp_date">Date:</label>
+            <input type="date" th:field="*{date}" id="exp_date">
+            <input type="hidden" th:field="*{type}"  value="expense" >
+
+        </fieldset>
+        <button type="submit">Add</button>
+
+    </form>
+
+</div>
 
 
 </body>

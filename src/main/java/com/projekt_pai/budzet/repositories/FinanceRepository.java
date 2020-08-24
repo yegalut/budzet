@@ -13,6 +13,7 @@ public interface FinanceRepository extends CrudRepository<Finance,Integer> {
     @Query("SELECT * FROM finance WHERE category_id = ?1")
     List<Finance> findAllByUserId(@Param("user")Integer user);
 
+    List<Finance> findByType(@Param("type") String type);
 
     List<Finance> findAllByUserIdAndTypeContains(@Param("user_id") Integer user_id,
                                                   @Param("type") String type);
@@ -23,11 +24,11 @@ public interface FinanceRepository extends CrudRepository<Finance,Integer> {
 
     List<Finance> findAllByUserIdAndTypeAndCategoryId(@Param("user_id") Integer user_id,
                                                       @Param("type") String type,
-                                                      @Param("category" ) String category);
+                                                      @Param("category" ) Integer category);
 
     List<Finance> findAllByUserIdAndTypeAndCategoryIdAndDateContains(@Param("user_id") Integer user_id,
                                                                      @Param("type") String type,
-                                                                     @Param("category" ) String category,
+                                                                     @Param("category" ) Integer category,
                                                                      @Param("date") String date);
 }
 

@@ -10,6 +10,10 @@ public class Category {
     private Integer id;
     @Column
     private String name;
+    @Column
+    private String type;
+
+
 
     public Integer getId() {
         return id;
@@ -27,10 +31,19 @@ public class Category {
         this.name = name;
     }
 
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
     public Category() {}
 
-    public Category(String name) {
+    public Category(String name, String type) {
         this.name = name;
+        this.type=type;
     }
 
     @Override
@@ -38,6 +51,7 @@ public class Category {
         return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
                 '}';
     }
 }

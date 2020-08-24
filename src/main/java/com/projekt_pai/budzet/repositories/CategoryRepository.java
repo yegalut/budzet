@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface CategoryRepository extends CrudRepository<Category,Integer> {
 List<Category> findAllByNameContains(@Param("name")String name);
+List<Category> findByType(@Param("type") String type);
 }
